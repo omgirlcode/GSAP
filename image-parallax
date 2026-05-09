@@ -11,7 +11,7 @@ pageFunctions.addFunction("globalLenis", function () {
     direction: 'vertical', // Scrolling direction
     gestureDirection: 'vertical', // Gesture recognition direction
     smooth: true, // Enable smooth scrolling
-    lerp: 0.05, // Animation interpolation factor
+    lerp: 0.21, // Animation interpolation factor, tight band = snappy, close to native scroll
     wheelMultiplier: 1.2, // Wheel scroll sensitivity
     mouseMultiplier: 1.2, // Mouse scroll sensitivity
     smoothTouch: false, // Disable smooth touch scrolling
