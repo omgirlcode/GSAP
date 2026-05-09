@@ -4,24 +4,40 @@
 
 // before body tag
 <script>
-window.addEventListener("load", function() {
-  gsap.registerPlugin(ScrollTrigger);
-
-  document.querySelectorAll(".item_image-wrapper").forEach(wrapper => {
-    const img = wrapper.querySelector(".item_image");
-
-    gsap.set(img, { scale: 1.3 }); // change the scale
-
-    gsap.to(img, {
-      yPercent: -13, // direction
-      ease: "none",
-      scrollTrigger: {
-        trigger: wrapper,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
-      }
-    });
+// Lennis
+pageFunctions.addFunction("globalLenis", function () {
+  // Initialize Lenis with configuration
+  const lenis = new Lenis({
+    direction: 'vertical', // Scrolling direction
+    gestureDirection: 'vertical', // Gesture recognition direction
+    smooth: true, // Enable smooth scrolling
+    lerp: 0.05, // Animation interpolation factor
+    wheelMultiplier: 1.2, // Wheel scroll sensitivity
+    mouseMultiplier: 1.2, // Mouse scroll sensitivity
+    smoothTouch: false, // Disable smooth touch scrolling
+    touchMultiplier: 1.5, // Touch scroll sensitivity
+    infinite: false, // Prevent infinite scrolling
   });
-});
-</script>
+
+  // Attach Lenis to the global window object
+  window.lenis = lenis;
+
+  // Custom flag to track the running state
+  window.lenisRunning = true;
+
+  // Overwrite Lenis start/stop methods to add console logs
+  const originalStart = lenis.start.bind(lenis);
+  const originalStop = lenis.stop.bind(lenis);
+
+  lenis.start = function () {
+    console.log("Lenis started.");
+    window.lenisRunning = true;
+    originalStart();
+  };
+
+  lenis.stop = function () {
+    console.log("Lenis stopped.");
+    window.lenisRunning = false;
+    originalStop();
+  };
+  </script>
