@@ -1,0 +1,34 @@
+<!-- 3. SVG animation -->
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  document.querySelectorAll('[svg="animated"]').forEach(function(svgEl) {
+    var path = svgEl.querySelector('path');
+    if (!path) return;
+
+    var length = path.getTotalLength();
+    var duration = parseFloat(svgEl.getAttribute('svg-animation-time') || 2000) / 1000;
+
+    gsap.set(path, {
+      strokeDasharray: length,
+      strokeDashoffset: length,
+      opacity: 1
+    });
+
+    gsap.set(svgEl, { opacity: 0 });
+
+    ScrollTrigger.create({
+      trigger: svgEl,
+      start: "top bottom",
+      once: true,
+      onEnter: function() {
+        gsap.to(svgEl, { opacity: 1, duration: 0.4, ease: "power1.out" });
+        gsap.to(path, {
+          strokeDashoffset: 0,
+          duration: duration,
+          ease: "power2.out"
+        });
+      }
+    });
+  });
+</script>
